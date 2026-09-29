@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Cairo:wght@400;500;600;700;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+    --font-display: 'Archivo', sans-serif;
+    --font-body: 'Cairo', sans-serif;
+
+    --color-paper: #F6F4EE;
+    --color-ink: #14130F;
+    --color-accent: #6F6A46;
+    --color-accent-dark: #56512F;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+body {
+    @apply bg-paper text-ink font-body antialiased;
+}
+
+::selection {
+    @apply bg-ink text-paper;
+}
+
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+    @apply outline outline-2 outline-offset-2 outline-accent;
+}
+
+.hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.glass-modal {
+    @apply bg-paper/95 backdrop-blur-xl border border-neutral-200 shadow-2xl;
+}
+
+/* شريط النص المتحرك أسفل الهيرو - حركة واحدة متعمدة بدل حركات متفرقة */
+@keyframes marquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-marquee {
+    animation: marquee 22s linear infinite;
+}
