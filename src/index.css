@@ -58,6 +58,7 @@ button:focus-visible,
     from {
         transform: translateX(0);
     }
+
     to {
         transform: translateX(-50%);
     }
@@ -65,4 +66,12 @@ button:focus-visible,
 
 .animate-marquee {
     animation: marquee 22s linear infinite;
+}
+
+/* ارتفاع الهيرو بطريقة آمنة لكل الموبايلات: 100vh كحل احتياطي لأي متصفح قديم،
+   و100dvh (يحسب المساحة الظاهرة فعليًا بعد شريط العنوان) لأي متصفح حديث بيدعمها.
+   المتصفح بيتجاهل السطر اللي مش فاهمه ويفضل شغال بالسطر اللي قبله. */
+.hero-height {
+    height: 100vh;
+    height: 100dvh;
 }

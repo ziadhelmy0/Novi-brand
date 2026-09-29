@@ -4,13 +4,13 @@ import { ButtonLink } from './Button';
 const Hero = () => {
   return (
     <section
-      className="relative w-full h-[92vh] overflow-hidden bg-ink"
+      className="relative w-full hero-height max-h-[820px] md:h-[92vh] md:max-h-none overflow-hidden bg-ink"
       aria-label="NOVI - الصورة الرئيسية"
     >
       <img
         src={coverImage}
         alt="NOVI - كوليكشن الملابس الجديدة"
-        className="absolute inset-0 w-full h-full object-cover opacity-90"
+        className="absolute inset-0 w-full h-full object-cover object-[65%_center] md:object-center opacity-90"
         fetchPriority="high"
         loading="eager"
       />
