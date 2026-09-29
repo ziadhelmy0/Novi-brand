@@ -10,7 +10,8 @@ const Hero = () => {
       <img
         src={coverImage}
         alt="NOVI - كوليكشن الملابس الجديدة"
-        className="absolute inset-0 w-full h-full object-cover object-[65%_center] md:object-center opacity-90"
+        className="absolute inset-0 w-full h-full object-cover opacity-90"
+        style={{ objectPosition: window.innerWidth < 768 ? '65% center' : 'center' }}
         fetchPriority="high"
         loading="eager"
       />
