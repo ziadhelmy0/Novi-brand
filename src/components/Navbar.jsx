@@ -21,9 +21,8 @@ const Navbar = ({ cartCount = 0, onCartClick }) => {
           <img src={logo} alt="NOVI" className="mix-blend-multiply w-full h-auto" />
         </a>
 
-        {/* Desktop Links (مخفية في الموبايل وتظهر في الشاشات الكبيرة فقط) */}
+        {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-10 text-[15px] font-medium">
-          {NAV_LIN_KS.map?.((link) => null) /* just reference safety */}
           {NAV_LINKS.map((link) => (
             <a key={link.label} href={link.href} className="py-1 hover:opacity-55 transition-opacity">
               {link.label}
