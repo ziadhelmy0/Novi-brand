@@ -1,33 +1,39 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Cairo:wght@400;500;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Readex+Pro:wght@300..700&display=swap');
 @import "tailwindcss";
 
 @theme {
-    --font-display: 'Archivo', sans-serif;
-    --font-body: 'Cairo', sans-serif;
+    --font-display: 'Archivo', 'Readex Pro', sans-serif;
+    --font-body: 'Readex Pro', 'Archivo', sans-serif;
 
-    --color-paper: #F6F4EE;
-    --color-ink: #14130F;
-    --color-accent: #6F6A46;
-    --color-accent-dark: #56512F;
+    --color-ink: #000000;
+    --color-paper: #f1f1ef;
+
+    --animate-marquee: marquee 40s linear infinite;
+    @keyframes marquee {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+    }
 }
 
 html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
     }
-
     * {
         animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
 }
 
 body {
-    @apply bg-paper text-ink font-body antialiased;
+    @apply bg-paper text-ink font-body antialiased overflow-x-hidden;
+    -webkit-tap-highlight-color: transparent;
 }
 
 ::selection {
@@ -36,8 +42,10 @@ body {
 
 a:focus-visible,
 button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
 [tabindex]:focus-visible {
-    @apply outline outline-2 outline-offset-2 outline-accent;
+    @apply outline outline-2 outline-offset-2 outline-ink;
 }
 
 .hide-scrollbar {
@@ -49,29 +57,73 @@ button:focus-visible,
     display: none;
 }
 
-.glass-modal {
-    @apply bg-paper/95 backdrop-blur-xl border border-neutral-200 shadow-2xl;
-}
-
-/* شريط النص المتحرك أسفل الهيرو - حركة واحدة متعمدة بدل حركات متفرقة */
-@keyframes marquee {
-    from {
-        transform: translateX(0);
+@layer components {
+    /* عناوين ضخمة: Archivo بعرض موسّع (wdth) عشان تدي إحساس ستريت وير */
+    .display {
+        font-family: var(--font-display);
+        font-weight: 900;
+        font-stretch: 125%;
+        letter-spacing: -0.035em;
+        line-height: 0.9;
     }
 
-    to {
-        transform: translateX(-50%);
+    .display-sm {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-stretch: 112%;
+        letter-spacing: -0.02em;
+        line-height: 1.05;
+    }
+
+    /* شكل تاج الهدوم المعلّق (سعر المنتج) */
+    .tag-shape {
+        clip-path: polygon(16% 0, 84% 0, 100% 15%, 100% 100%, 0 100%, 0 15%);
+    }
+
+    .tag-swing {
+        transform-origin: top center;
+        transform: rotate(4deg);
+    }
+
+    .group:hover .tag-swing,
+    .group:focus-visible .tag-swing {
+        animation: swing 1.3s ease-in-out;
     }
 }
 
-.animate-marquee {
-    animation: marquee 22s linear infinite;
+@keyframes swing {
+    0% { transform: rotate(4deg); }
+    20% { transform: rotate(-9deg); }
+    40% { transform: rotate(7deg); }
+    60% { transform: rotate(-4deg); }
+    80% { transform: rotate(2deg); }
+    100% { transform: rotate(4deg); }
 }
 
-/* ارتفاع الهيرو بطريقة آمنة لكل الموبايلات: 100vh كحل احتياطي لأي متصفح قديم،
-   و100dvh (يحسب المساحة الظاهرة فعليًا بعد شريط العنوان) لأي متصفح حديث بيدعمها.
-   المتصفح بيتجاهل السطر اللي مش فاهمه ويفضل شغال بالسطر اللي قبله. */
-.hero-height {
-    height: 100vh;
-    height: 100dvh;
+@keyframes sheet-in {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.sheet-in {
+    animation: sheet-in 0.35s ease-out;
+}
+
+@keyframes toast-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.toast-in {
+    animation: toast-in 0.3s ease-out;
+}
+
+@keyframes draw {
+    to { stroke-dashoffset: 0; }
+}
+
+.check-draw {
+    stroke-dasharray: 34;
+    stroke-dashoffset: 34;
+    animation: draw 0.55s 0.15s ease-out forwards;
 }

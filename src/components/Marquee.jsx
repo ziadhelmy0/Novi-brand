@@ -1,8 +1,8 @@
 const PHRASE = 'NOVI — Born to be elegant';
 
 function Marquee() {
-  // بنكرر نفس الجملة مرتين جوه شريط واحد عشان اللفة تبقى متصلة من غير قطع
-  const track = Array.from({ length: 8 }, () => PHRASE).join('   ·   ');
+  // بنكرر نفس الجملة جوه شريط واحد، وبنحط نسختين منه جنب بعض عشان اللفة تبقى متصلة من غير قطع
+  const track = Array.from({ length: 12 }, () => PHRASE).join('   ·   ');
 
   return (
     <div
