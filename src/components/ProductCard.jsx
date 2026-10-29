@@ -1,16 +1,57 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SIZES } from './ProductModal';
+
+// المدة اللي لازم تفضل ضاغط فيها على الصورة (بالملّي ثانية) عشان الضهر يظهر على الموبايل
+const HOLD_MS = 180;
 
 function ProductCard({ product, onSelect }) {
   const open = () => onSelect(product);
-  // على الموبايل مفيش hover، فالزرار الصغير هو اللي بيبدّل بين الأمام والخلف
-  const [showBack, setShowBack] = useState(false);
+
+  const [toggled, setToggled] = useState(false); // من زرار Back / Front
+  const [holding, setHolding] = useState(false); // من الضغطة المطوّلة
+  const holdTimer = useRef(null);
+  const didHold = useRef(false);
+
+  const showBack = Boolean(product.back) && (toggled || holding);
+
+  useEffect(() => () => clearTimeout(holdTimer.current), []);
+
+  const stopHold = () => {
+    clearTimeout(holdTimer.current);
+    setHolding(false);
+  };
+
+  // الضغطة المطوّلة بالصباع بس (الماوس بيستخدم hover زي الأول)
+  const handlePointerDown = (e) => {
+    if (e.pointerType !== 'touch' || !product.back) return;
+    if (e.target.closest('button')) return;
+    didHold.current = false;
+    clearTimeout(holdTimer.current);
+    holdTimer.current = setTimeout(() => {
+      didHold.current = true;
+      setHolding(true);
+    }, HOLD_MS);
+  };
+
+  // لو الصباع اتشال بعد ضغطة مطوّلة، منفتحش صفحة المنتج
+  const handleCardClick = () => {
+    if (didHold.current) {
+      didHold.current = false;
+      return;
+    }
+    open();
+  };
+
+  // بيمنع قائمة "حفظ الصورة / فتحها" اللي كروم بيفتحها مع الضغطة المطوّلة على الموبايل
+  const handleContextMenu = (e) => {
+    if (window.matchMedia('(hover: none)').matches) e.preventDefault();
+  };
 
   return (
     <article
       role="button"
       tabIndex={0}
-      onClick={open}
+      onClick={handleCardClick}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
@@ -33,12 +74,22 @@ function ProductCard({ product, onSelect }) {
           </div>
         </div>
 
-        <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] md:rounded-[2rem] bg-white/50">
+        <div
+          onPointerDown={handlePointerDown}
+          onPointerUp={stopHold}
+          onPointerCancel={stopHold}
+          onPointerLeave={stopHold}
+          onContextMenu={handleContextMenu}
+          className={`relative aspect-[4/5] overflow-hidden rounded-[1.5rem] md:rounded-[2rem] bg-white/50 select-none touch-pan-y [-webkit-touch-callout:none] transition-transform duration-300 ${
+            holding ? 'scale-[0.985]' : ''
+          }`}
+        >
           <img
             src={product.front}
             alt={product.name}
             loading="lazy"
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+            draggable={false}
+            className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-500 ${
               showBack ? 'opacity-0' : 'opacity-100 md:group-hover:opacity-0'
             }`}
           />
@@ -47,7 +98,8 @@ function ProductCard({ product, onSelect }) {
               src={product.back}
               alt={`${product.name} - الوجه الخلفي`}
               loading="lazy"
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+              draggable={false}
+              className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-500 ${
                 showBack ? 'opacity-100' : 'opacity-0 md:group-hover:opacity-100'
               }`}
             />
@@ -58,16 +110,16 @@ function ProductCard({ product, onSelect }) {
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                setShowBack((v) => !v);
+                setToggled((v) => !v);
               }}
-              aria-pressed={showBack}
-              aria-label={showBack ? 'عرض الوجه الأمامي' : 'عرض الوجه الخلفي'}
+              aria-pressed={toggled}
+              aria-label={toggled ? 'عرض الوجه الأمامي' : 'عرض الوجه الخلفي'}
               className="absolute bottom-3 left-3 z-10 hidden [@media(hover:none)]:inline-flex items-center gap-1.5 h-10 pl-3 pr-3.5 rounded-full bg-paper/90 backdrop-blur text-sm font-medium active:scale-95 transition-transform"
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path d="M2.5 6.5A5.5 5.5 0 0 1 12.7 4.3M13.5 9.5A5.5 5.5 0 0 1 3.3 11.7M12.8 1.8v2.8H10M3.2 14.2v-2.8H6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              {showBack ? 'Front' : 'Back'}
+              {toggled ? 'Front' : 'Back'}
             </button>
           )}
         </div>
