@@ -1,9 +1,9 @@
 // كل كارت بلون من ألوان المنتجات عشان الصفحة كلها تفضل في نفس العالم
 const CONTACT_DETAILS = [
   { label: 'Call or WhatsApp', value: '01090999550', href: 'tel:+201090999550', className: 'bg-ink text-paper' },
-  { label: 'Instagram', value: '@novi', href: 'https://instagram.com/novi', className: 'bg-[#f7c8d8] text-ink' },
-  { label: 'Facebook', value: 'novi - نوفي', href: 'https://facebook.com/novi', className: 'bg-[#cde4b5] text-ink' },
-  { label: 'Website', value: 'novi.com', href: 'https://novi.com', className: 'bg-[#d9d7a3] text-ink' },
+  { label: 'Instagram', value: '@novi', href: 'https://www.instagram.com/noviistor?psln=MXF1bmhlaHU5NGh6aw==', className: 'bg-[#f7c8d8] text-ink' },
+  { label: 'Facebook', value: 'novi - نوفي', href: 'https://www.facebook.com/share/1Cgn9hFjFo/', className: 'bg-[#cde4b5] text-ink' },
+  { label: 'Website', value: 'novi.com', href: 'https://novi-clothing-brand.vercel.app/#collection', className: 'bg-[#d9d7a3] text-ink' },
 ];
 
 const Contact = () => {
