@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import { SIZES } from './ProductModal';
 
 function ProductCard({ product, onSelect }) {
   const open = () => onSelect(product);
+  // على الموبايل مفيش hover، فالزرار الصغير هو اللي بيبدّل بين الأمام والخلف
+  const [showBack, setShowBack] = useState(false);
 
   return (
     <article
@@ -35,15 +38,37 @@ function ProductCard({ product, onSelect }) {
             src={product.front}
             alt={product.name}
             loading="lazy"
-            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 md:group-hover:opacity-0"
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+              showBack ? 'opacity-0' : 'opacity-100 md:group-hover:opacity-0'
+            }`}
           />
           {product.back && (
             <img
               src={product.back}
               alt={`${product.name} - الوجه الخلفي`}
               loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 md:group-hover:opacity-100"
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+                showBack ? 'opacity-100' : 'opacity-0 md:group-hover:opacity-100'
+              }`}
             />
+          )}
+
+          {product.back && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowBack((v) => !v);
+              }}
+              aria-pressed={showBack}
+              aria-label={showBack ? 'عرض الوجه الأمامي' : 'عرض الوجه الخلفي'}
+              className="absolute bottom-3 left-3 z-10 hidden [@media(hover:none)]:inline-flex items-center gap-1.5 h-10 pl-3 pr-3.5 rounded-full bg-paper/90 backdrop-blur text-sm font-medium active:scale-95 transition-transform"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M2.5 6.5A5.5 5.5 0 0 1 12.7 4.3M13.5 9.5A5.5 5.5 0 0 1 3.3 11.7M12.8 1.8v2.8H10M3.2 14.2v-2.8H6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              {showBack ? 'Front' : 'Back'}
+            </button>
           )}
         </div>
       </div>
