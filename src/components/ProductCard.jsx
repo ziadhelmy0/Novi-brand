@@ -50,8 +50,8 @@ function ProductCard({ product, onSelect }) {
 
       <div className="pt-4 px-1 flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <h3 className="display-sm text-lg md:text-2xl truncate">{product.name}</h3>
-          <p className="text-sm text-ink/60 mt-1">{SIZES.join(', ')}</p>
+          <h3 className="display-sm text-[17px] md:text-2xl break-words">{product.name}</h3>
+          <p className="text-[13px] md:text-sm text-ink/60 mt-1">{SIZES.join(', ')}</p>
         </div>
         <button
           type="button"
@@ -60,7 +60,7 @@ function ProductCard({ product, onSelect }) {
             open();
           }}
           aria-label={`اختر مقاس ${product.name}`}
-          className="shrink-0 w-12 h-12 rounded-full bg-ink text-paper grid place-items-center hover:scale-110 active:scale-95 transition-transform"
+          className="shrink-0 w-11 h-11 md:w-12 md:h-12 rounded-full bg-ink text-paper grid place-items-center hover:scale-110 active:scale-95 transition-transform"
         >
           <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path d="M8 1.5v13M1.5 8h13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />

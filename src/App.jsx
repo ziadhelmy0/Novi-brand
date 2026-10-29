@@ -186,7 +186,7 @@ function App() {
                     type="button"
                     onClick={() => handleType(type.id)}
                     aria-pressed={active.type === type.id}
-                    className={`h-11 px-5 md:px-7 rounded-full text-[15px] font-medium transition-colors duration-300 ${
+                    className={`h-11 px-3.5 sm:px-5 md:px-7 rounded-full text-[15px] font-medium whitespace-nowrap transition-colors duration-300 ${
                       active.type === type.id ? 'bg-paper text-ink' : 'text-paper/70 hover:text-paper'
                     }`}
                   >
@@ -205,7 +205,7 @@ function App() {
                     aria-label={SHADES[cat.shade].name}
                     style={{ backgroundColor: cat.swatch }}
                     className={`w-11 h-11 rounded-full border border-ink/20 transition-transform duration-300 hover:scale-110 ${
-                      active.id === cat.id ? 'ring-2 ring-ink ring-offset-4 ring-offset-transparent scale-110' : ''
+                      active.id === cat.id ? 'outline outline-2 outline-ink outline-offset-4 scale-110' : ''
                     }`}
                   />
                 ))}

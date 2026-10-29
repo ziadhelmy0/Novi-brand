@@ -278,7 +278,7 @@ function CheckoutModal({ items, total, onClose, onComplete }) {
 
               <p
                 aria-hidden="true"
-                className="display text-[7rem] leading-none text-paper/[0.07] select-none mt-6 -mb-6 -ml-2"
+                className="display text-[22vw] md:text-[4rem] lg:text-[5rem] leading-none whitespace-nowrap text-paper/[0.07] select-none mt-6 -mb-4"
               >
                 NOVI
               </p>
